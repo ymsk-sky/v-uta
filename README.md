@@ -21,6 +21,9 @@ npm install @mui/material @emotion/react @emotion/styled
 cd back
 python -m venv .venv
 .venv/Script/activate
+python -m pip install --upgrade pip
+pip install wheel
+pip install fastapi
 ```
 
 ## 動作
@@ -36,6 +39,8 @@ npm run dev
 
 ```shell
 cd back
+.venv/Script/activate
+fastapi dev main.py
 ```
 
 ### その他
