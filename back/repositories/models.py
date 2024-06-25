@@ -18,6 +18,15 @@ class Agancy(Base):
     vtubers = relationship("Vtubers", back_populates="agency")
 
 
+class Vtuber(Base):
+    __tablename__ = "vtubers"
+    id_ = Column(Integer, primary_key=True, autoincrement=True)
+    name = Column(String, nullable=False)
+    agency_id = Column(Integer, ForeignKey("agencies.id_"))
+    agency = relationship("Agency", back_populates="vtubers")
+    video_records = relationship("VideoRecord", back_populates="vtuber")
+
+
 class Song(Base):
     __tablename__ = "songs"
     id_ = Column(Integer, primary_key=True, autoincrement=True)
