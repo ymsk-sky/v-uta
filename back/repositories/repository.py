@@ -2,8 +2,6 @@ from typing import List
 
 from sqlalchemy.orm import Session
 
-from repositories.model import Item
-
 
 class Repository:
     def __init__(self, session: Session) -> None:
@@ -20,8 +18,8 @@ class Repository:
     def delete_item(self) -> None:
         pass
 
-    def get_all_items(self) -> List[Item]:
+    def get_all_items(self) -> List:
         pass
 
-    def get_one_item(self) -> Item:
+    def get_one_item(self) -> None:
         pass
