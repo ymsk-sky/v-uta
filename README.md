@@ -23,7 +23,7 @@ python -m venv .venv
 .venv/Script/activate
 python -m pip install --upgrade pip
 pip install wheel
-pip install fastapi
+pip install fastapi, sqlalchemy
 ```
 
 ## 動作
