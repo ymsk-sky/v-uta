@@ -15,7 +15,7 @@ class Agency(Base):
     __tablename__ = "agencies"
     id_ = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String, nullable=False)
-    vtubers = relationship("Vtubers", back_populates="agency")
+    vtubers = relationship("Vtuber", back_populates="agency")
 
 
 class Vtuber(Base):
