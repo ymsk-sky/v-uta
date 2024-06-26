@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from controllers.controller import get_session, router
+from controllers.controller import router
 from repositories.database import engine
 from repositories.models import Base
 

@@ -11,7 +11,7 @@ class OriginalArtist(Base):
     songs = relationship("Song", back_populates="original_artist")
 
 
-class Agancy(Base):
+class Agency(Base):
     __tablename__ = "agencies"
     id_ = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String, nullable=False)
