@@ -1,4 +1,3 @@
-import logging
 from typing import List
 
 from fastapi import APIRouter, Depends
@@ -19,7 +18,6 @@ class VideoRecordModel(BaseModel):
 
 
 router = APIRouter()
-logger = logging.getLogger(__name__)
 
 
 def get_session():
