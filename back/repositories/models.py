@@ -52,5 +52,5 @@ class VideoURL(Base):
     id_ = Column(Integer, primary_key=True, autoincrement=True)
     video_record_id = Column(Integer, ForeignKey("video_records.id_"))
     url = Column(String, nullable=False)
-    uploaded_at = Column(DateTime, nullable=False)
+    uploaded_at = Column(DateTime, nullable=True)
     video_record = relationship("VideoRecord", back_populates="video_urls")

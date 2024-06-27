@@ -54,3 +54,47 @@ class Repository:
                 )
             )
         return results
+
+    def add_video_record(self, video_record: VideoRecordDTO):
+        """登録処理"""
+        original_artist = self.session.query(OriginalArtist).filter_by(name=video_record.original_artist).first()
+        if not original_artist:
+            original_artist = OriginalArtist(name=video_record.original_artist)
+            self.session.add(original_artist)
+            self.session.commit()
+            self.session.refresh(original_artist)
+
+        song = self.session.query(Song).filter_by(title=video_record.song_title).first()
+        if not song:
+            song = Song(title=video_record.song_title, original_artist_id=original_artist.id_)
+            self.session.add(song)
+            self.session.commit()
+            self.session.refresh(song)
+
+        agency = self.session.query(Agency).filter_by(name=video_record.vtuber_agency).first()
+        if not agency:
+            agency = Agency(name=video_record.vtuber_agency)
+            self.session.add(agency)
+            self.session.commit()
+            self.session.refresh(agency)
+
+        vtuber = self.session.query(Vtuber).filter_by(name=video_record.vtuber_name).first()
+        if not vtuber:
+            vtuber = Vtuber(name=video_record.vtuber_name, agency_id=agency.id_)
+            self.session.add(vtuber)
+            self.session.commit()
+            self.session.refresh(vtuber)
+
+        video_record_db = VideoRecord(
+            song_id=song.id_,
+            vtuber_id=vtuber.id_,
+            video_type=video_record.video_type,
+        )
+        self.session.add(video_record_db)
+        self.session.commit()
+        self.session.refresh(video_record_db)
+
+        for url in video_record.urls:
+            video_url = VideoURL(video_record_id=video_record_db.id_, url=url)
+            self.session.add(video_url)
+        self.session.commit()

@@ -18,3 +18,8 @@ class Service:
         """全レコードを返す"""
         repository = Repository(session=self.session)
         return repository.get_all_records()
+
+    def add_video_record(self, video_record: VideoRecordDTO):
+        """登録処理"""
+        repository = Repository(session=self.session)
+        repository.add_video_record(video_record=video_record)
