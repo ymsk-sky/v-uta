@@ -6,9 +6,7 @@ import SongList from "./components/SongList";
 export default function Home() {
     return (
         <main className={styles.main}>
-            <div className={styles.center}>
-                <SongList/>
-            </div>
+            <SongList/>
         </main>
     )
 }

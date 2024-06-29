@@ -1,41 +1,40 @@
 import { useEffect, useState } from "react";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 
-function createData(
-    id: number,
-    song: string,
+interface VideoRecord {
+    song_title: string,
     original_artist: string,
-    vtuber: string,
-    agency: string,
+    vtuber_name: string,
+    vtuber_agency: string,
+    video_type: string,
     urls: string[],
-) {
-    return { id, song, original_artist, vtuber, agency, urls };
 }
 
 const columns = ["id", "song", "artist", "vtuber", "agency", "urls"];
 
-const rows = [
-    createData(0, "MySong", "Artist00", "Hanako", "V-Test", ["qwertyu"]),
-    createData(1, "YourSong", "Artist01", "Taro", "V-Test", ["asdfghj"]),
-    createData(2, "ThemSong", "Artist02", "Momo", "V-Temp", ["zxcvbnm"]),
-];
-
-const fetchData = async (setData: Function) => {
-    await fetch("http://localhost:8000")
-        .then((res) => res.json())
-        .then(json => {
-            // WIP: rowsに入れる
-            json.map((data: object) => {
-                console.log(data);
-            });
-        });
+const fetchRecords = async () => {
+    const response = await fetch("http://localhost:8000");
+    if (!response.ok) {
+        throw new Error("Fetch Error");
+    }
+    const data: VideoRecord[] = await response.json();
+    return data;
 };
 
 export default function SongList() {
-    const [rowsx, setRows] = useState();
+    const [videoRecords, setVideoRecords] = useState<VideoRecord[]>([]);
 
     useEffect(() => {
-        fetchData(setRows);
+        const fetchData = async () => {
+            try {
+                const records = await fetchRecords();
+                setVideoRecords(records);
+            } catch (error) {
+                console.log("error");
+                setVideoRecords([]);
+            }
+        };
+        fetchData();
     }, []);
 
     return (
@@ -44,21 +43,21 @@ export default function SongList() {
                 <TableHead>
                     <TableRow>
                         {columns.map((column) => (
-                            <TableCell>{column}</TableCell>
+                            <TableCell key={column}>{column}</TableCell>
                         ))}
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {rows.map((row) => (
-                        <TableRow key={row.id}>
+                    {videoRecords.map((record, index) => (
+                        <TableRow key={index}>
                             <TableCell component="th" scope="row">
-                                {row.id}
+                                {index}
                             </TableCell>
-                            <TableCell>{row.song}</TableCell>
-                            <TableCell>{row.original_artist}</TableCell>
-                            <TableCell>{row.vtuber}</TableCell>
-                            <TableCell>{row.agency}</TableCell>
-                            <TableCell>{row.urls}</TableCell>
+                            <TableCell>{record.song_title}</TableCell>
+                            <TableCell>{record.original_artist}</TableCell>
+                            <TableCell>{record.vtuber_name}</TableCell>
+                            <TableCell>{record.vtuber_agency}</TableCell>
+                            <TableCell>{record.urls}</TableCell>
                         </TableRow>
                     ))}
                 </TableBody>
