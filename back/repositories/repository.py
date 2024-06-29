@@ -50,7 +50,7 @@ class Repository:
                     vtuber_name=vtuber.name,
                     vtuber_agency=agency.name,
                     video_type=video_record.video_type,
-                    urls=video_urls,
+                    urls=[video_url.url for video_url in video_urls],
                 )
             )
         return results

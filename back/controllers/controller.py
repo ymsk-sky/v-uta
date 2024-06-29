@@ -44,16 +44,8 @@ def get_all_video_records(session: Session = Depends(get_session)) -> List[Video
     return results
 
 
-@router.post("/{num}")
-def add_video_record(num: int, session: Session = Depends(get_session)):
+@router.post("/")
+def add_video_record(video_record: VideoRecordModel, session: Session = Depends(get_session)):
     service = Service(session=session)
-    video_record = VideoRecordModel(
-        song_title="My Test Song",
-        original_artist="The Artist",
-        vtuber_name=f"VTuber{num:04}",
-        vtuber_agency="Agency",
-        video_type="single",
-        urls=[f"ERqqU72lYmI_{num}"],
-    )
     service.add_video_record(video_record=video_record)
     return {"state": "OK"}

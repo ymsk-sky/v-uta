@@ -17,7 +17,8 @@ class Service:
     def get_all_video_records(self) -> List[VideoRecordDTO]:
         """全レコードを返す"""
         repository = Repository(session=self.session)
-        return repository.get_all_records()
+        results = repository.get_all_records()
+        return results
 
     def add_video_record(self, video_record: VideoRecordDTO):
         """登録処理"""
