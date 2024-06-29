@@ -7,3 +7,11 @@ __pycache__/
 .venv/
 env/
 venv/
+
+# db
+*.db
+*.sqlite3
+
+# for dev
+*.rest
+*.http

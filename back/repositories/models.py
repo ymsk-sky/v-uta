@@ -11,11 +11,20 @@ class OriginalArtist(Base):
     songs = relationship("Song", back_populates="original_artist")
 
 
-class Agancy(Base):
+class Agency(Base):
     __tablename__ = "agencies"
     id_ = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String, nullable=False)
-    vtubers = relationship("Vtubers", back_populates="agency")
+    vtubers = relationship("Vtuber", back_populates="agency")
+
+
+class Vtuber(Base):
+    __tablename__ = "vtubers"
+    id_ = Column(Integer, primary_key=True, autoincrement=True)
+    name = Column(String, nullable=False)
+    agency_id = Column(Integer, ForeignKey("agencies.id_"))
+    agency = relationship("Agency", back_populates="vtubers")
+    video_records = relationship("VideoRecord", back_populates="vtuber")
 
 
 class Song(Base):
@@ -43,5 +52,5 @@ class VideoURL(Base):
     id_ = Column(Integer, primary_key=True, autoincrement=True)
     video_record_id = Column(Integer, ForeignKey("video_records.id_"))
     url = Column(String, nullable=False)
-    uploaded_at = Column(DateTime, nullable=False)
+    uploaded_at = Column(DateTime, nullable=True)
     video_record = relationship("VideoRecord", back_populates="video_urls")
