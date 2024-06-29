@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@mui/material";
 
 interface VideoRecord {
     song_title: string,
@@ -38,30 +38,38 @@ export default function SongList() {
     }, []);
 
     return (
-        <TableContainer>
-            <Table>
-                <TableHead>
-                    <TableRow>
-                        {columns.map((column) => (
-                            <TableCell key={column}>{column}</TableCell>
-                        ))}
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {videoRecords.map((record, index) => (
-                        <TableRow key={index}>
-                            <TableCell component="th" scope="row">
-                                {index}
-                            </TableCell>
-                            <TableCell>{record.song_title}</TableCell>
-                            <TableCell>{record.original_artist}</TableCell>
-                            <TableCell>{record.vtuber_name}</TableCell>
-                            <TableCell>{record.vtuber_agency}</TableCell>
-                            <TableCell>{record.urls}</TableCell>
+        <Box sx={{
+            flex: 1,
+            overflow: "auto",
+            marginTop: 4,
+            marginX: 4,
+            bgcolor: "background.default"
+        }}>
+            <TableContainer component={Paper}>
+                <Table>
+                    <TableHead sx={{ backgroundColor: "primary.light" }}>
+                        <TableRow>
+                            {columns.map((column) => (
+                                <TableCell key={column}>{column}</TableCell>
+                            ))}
                         </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
-        </TableContainer>
+                    </TableHead>
+                    <TableBody>
+                        {videoRecords.map((record, index) => (
+                            <TableRow key={index}>
+                                <TableCell component="th" scope="row">
+                                    {index}
+                                </TableCell>
+                                <TableCell>{record.song_title}</TableCell>
+                                <TableCell>{record.original_artist}</TableCell>
+                                <TableCell>{record.vtuber_name}</TableCell>
+                                <TableCell>{record.vtuber_agency}</TableCell>
+                                <TableCell>{record.urls}</TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+        </Box>
     )
 }
