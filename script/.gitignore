@@ -10,3 +10,6 @@ venv/
 
 # api key
 .env
+
+# result file
+*result*.json

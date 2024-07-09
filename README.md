@@ -52,6 +52,27 @@ cd back
 fastapi dev main.py
 ```
 
+### スクリプト
+
+```shell
+cd script
+.venv/Script/activate
+python collect_utawaku.py
+```
+
+#### 収集
+`collect_utawaku.py`: YouTube Data APIで対象チャンネルの"歌枠"の情報を収集してjson出力する.
+
+`.env`に以下のパラメータを記述する.
+
+```
+API_KEY=
+CHANNEL_ID=
+```
+
+* `API_KEY`は[Google Cloud プラットフォーム](https://console.cloud.google.com/?hl=ja)で確認可能
+* `CHANNLE_ID`は[他人のYouTubeのチャンネルIDを調べる](https://ilr.jp/tech/485/)から取得可能
+
 ### その他
 
 nodeはvoltaで管理している.
