@@ -14,7 +14,7 @@ channel_id = os.getenv("CHANNEL_ID")
 ts = datetime.now().strftime("%Y%m%d%H%M%S")
 
 # YouTube APIで必要な情報を取得
-utawaku = []
+utawaku = {}
 youtube = build("youtube", "v3", developerKey=api_key)
 page_token = ""
 while 1:
@@ -38,7 +38,7 @@ while 1:
                 "title": title,
                 "date": item["snippet"]["publishedAt"],
             }
-            utawaku.append(info)
+            utawaku[video_id] = info
             print(info)
 
     if "nextPageToken" in response:
