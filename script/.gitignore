@@ -1,0 +1,16 @@
+# cache
+__pycache__/
+.DS_Store
+
+# env
+.env/
+.venv/
+env/
+venv/
+
+# api key
+.env
+
+# result file
+*result*.json
+*.csv

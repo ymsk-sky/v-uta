@@ -26,6 +26,15 @@ pip install wheel
 pip install fastapi, sqlalchemy
 ```
 
+```shell
+cd script
+python -m venv .venv
+.venv/Script/activate
+python -m pip install --upgrade pip
+pip install python-dotenv
+pip install --upgrade google-api-python-client
+```
+
 ## 動作
 
 ### フロントエンド
@@ -42,6 +51,10 @@ cd back
 .venv/Script/activate
 fastapi dev main.py
 ```
+
+### スクリプト
+
+[詳細](README_SCRIPT.md)
 
 ### その他
 
