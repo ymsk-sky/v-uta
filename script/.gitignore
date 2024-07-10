@@ -13,3 +13,4 @@ venv/
 
 # result file
 *result*.json
+*result*.csv
