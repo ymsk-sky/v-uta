@@ -8,10 +8,9 @@ __pycache__/
 env/
 venv/
 
-# db
-*.db
-*.sqlite3
+# api key
+.env
 
-# for dev
-*.rest
-*.http
+# result file
+*result*.json
+*.csv
