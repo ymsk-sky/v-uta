@@ -85,16 +85,23 @@ class Repository:
             self.session.commit()
             self.session.refresh(vtuber)
 
-        video_record_db = VideoRecord(
-            song_id=song.id_,
-            vtuber_id=vtuber.id_,
-            video_type=video_record.video_type,
-        )
-        self.session.add(video_record_db)
-        self.session.commit()
-        self.session.refresh(video_record_db)
+        _video_record = self.session.query(VideoRecord).filter_by(song_id=song.id_, vtuber_id=vtuber.id_).first()
+        if _video_record:
+            # 既に存在する場合そのVideoRecordのIDを使用
+            record_id = _video_record.id_
+        else:
+            # 新規で作成
+            video_record_db = VideoRecord(
+                song_id=song.id_,
+                vtuber_id=vtuber.id_,
+                video_type=video_record.video_type,
+            )
+            self.session.add(video_record_db)
+            self.session.commit()
+            self.session.refresh(video_record_db)
+            record_id = video_record_db.id_
 
         for url in video_record.urls:
-            video_url = VideoURL(video_record_id=video_record_db.id_, url=url)
+            video_url = VideoURL(video_record_id=record_id, url=url)
             self.session.add(video_url)
         self.session.commit()
