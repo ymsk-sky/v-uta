@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@mui/material";
+import { Box, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@mui/material";
+import YouTubeIcon from "@mui/icons-material/YouTube";
 
 interface VideoRecord {
     song_title: string,
@@ -64,7 +65,19 @@ export default function SongList() {
                                 <TableCell>{record.original_artist}</TableCell>
                                 <TableCell>{record.vtuber_name}</TableCell>
                                 <TableCell>{record.vtuber_agency}</TableCell>
-                                <TableCell>{record.urls}</TableCell>
+                                <TableCell>
+                                    {record.urls.map((url) => (
+                                        <Button variant="text" href={url} target="_blank" sx={{
+                                            maxWidth: "30px",
+                                            maxHeight: "30px",
+                                            minWidth: "30px",
+                                            minHeight: "30px",
+                                            marginRight: 1
+                                        }}>
+                                            <YouTubeIcon sx={{ color: "#FF3D00" }}/>
+                                        </Button>
+                                    ))}
+                                </TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
