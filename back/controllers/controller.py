@@ -1,6 +1,8 @@
 from typing import List
 
 from fastapi import APIRouter, Depends
+from fastapi.encoders import jsonable_encoder
+from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
@@ -37,7 +39,6 @@ def get_all_video_records(session: Session = Depends(get_session)) -> List[Video
 
     Args:
         session (Session): セッション
-
     """
     service = Service(session=session)
     results = service.get_all_video_records()
@@ -45,7 +46,13 @@ def get_all_video_records(session: Session = Depends(get_session)) -> List[Video
 
 
 @router.post("/")
-def add_video_record(video_record: VideoRecordModel, session: Session = Depends(get_session)):
+def add_video_record(video_record: VideoRecordModel, session: Session = Depends(get_session)) -> JSONResponse:
+    """レコード登録
+
+    Args:
+        video_record (VideoRecordModel): 登録するレコード
+        session (Session): セッション
+    """
     service = Service(session=session)
     service.add_video_record(video_record=video_record)
-    return {"state": "OK"}
+    return jsonable_encoder({"state": "OK"})
