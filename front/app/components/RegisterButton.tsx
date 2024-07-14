@@ -7,7 +7,7 @@ export default function RegisterButton() {
         color="primary"
         aria-label="add"
         onClick={() => {
-            window.location.href = "http://localhost:3000/create";
+            window.location.href = "/create";
         }}
         sx={{
             position: "fixed",
