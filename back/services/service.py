@@ -2,7 +2,7 @@ from typing import List
 
 from sqlalchemy.orm import Session
 
-from repositories.repository import Repository, VideoRecordDTO
+from repositories.repository import Repository, RecordFilterDTO, VideoRecordDTO
 
 
 class Service:
@@ -18,6 +18,12 @@ class Service:
         """全レコードを返す"""
         repository = Repository(session=self.session)
         results = repository.get_all_records()
+        return results
+
+    def get_filtered_video_records(self, record_filter: RecordFilterDTO) -> List[VideoRecordDTO]:
+        """条件に合うレコードを返す"""
+        repository = Repository(session=self.session)
+        results = repository.get_filtered_records(record_filter=record_filter)
         return results
 
     def add_video_record(self, video_record: VideoRecordDTO):

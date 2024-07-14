@@ -19,6 +19,14 @@ class VideoRecordModel(BaseModel):
     urls: List[str]
 
 
+class RecordFilterModel(BaseModel):
+    song_title: str | None
+    original_artist: str | None
+    vtuber_name: str | None
+    vtuber_agency: str | None
+    video_type: str | None
+
+
 router = APIRouter()
 
 
@@ -44,6 +52,16 @@ def get_all_video_records(session: Session = Depends(get_session)) -> List[Video
     results = service.get_all_video_records()
     return results
 
+@router.get("/records", response_model=List[VideoRecordModel])
+def get_filtered_records(record_filter: RecordFilterModel, session: Session = Depends(get_session)) -> List[VideoRecordModel]:
+    """条件に合うレコードを返す
+
+    Args:
+        session (Session): セッション
+    """
+    service = Service(session=session)
+    results = service.get_filtered_video_records(record_filter)
+    return results
 
 @router.post("/")
 def add_video_record(video_record: VideoRecordModel, session: Session = Depends(get_session)) -> JSONResponse:

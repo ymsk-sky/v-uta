@@ -24,6 +24,22 @@ class VideoRecordDTO:
         self.urls = urls
 
 
+class RecordFilterDTO:
+    def __init__(
+        self,
+        song_title: str | None,
+        original_artist: str | None,
+        vtuber_name: str | None,
+        vtuber_agency: str | None,
+        video_type: str | None,
+    ) -> None:
+        self.song_title = song_title
+        self.original_artist = original_artist
+        self.vtuber_name = vtuber_name
+        self.vtuber_agency = vtuber_agency
+        self.video_type = video_type
+
+
 class Repository:
     def __init__(self, session: Session) -> None:
         """初期化
@@ -51,6 +67,29 @@ class Repository:
                     vtuber_agency=agency.name,
                     video_type=video_record.video_type,
                     urls=[video_url.url for video_url in video_urls],
+                )
+            )
+        return results
+
+    def get_filtered_records(self, record_filter: RecordFilterDTO) -> List[VideoRecordDTO]:
+        """条件に合うレコードを返す"""
+        if record_filter.song_title is None:
+            song = self.session.query(Song).first()
+            print("##################### SONG")
+        else:
+            song = self.session.query(Song).filter_by(title=record_filter.song_title).first()
+        video_records = self.session.query(VideoRecord).filter_by(song_id=song.id_).all()
+        results = []
+        for video_record in video_records:
+            original_artist = self.session.query(OriginalArtist).filter_by(id_=song.original_artist_id).first()
+            results.append(
+                VideoRecordDTO(
+                    song_title=song.title,
+                    original_artist=original_artist.name,
+                    vtuber_name="",
+                    vtuber_agency="",
+                    video_type="utawaku",
+                    urls=[],
                 )
             )
         return results
