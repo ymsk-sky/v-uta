@@ -73,23 +73,40 @@ class Repository:
 
     def get_filtered_records(self, record_filter: RecordFilterDTO) -> List[VideoRecordDTO]:
         """条件に合うレコードを返す"""
-        if record_filter.song_title is None:
-            song = self.session.query(Song).first()
-            print("##################### SONG")
-        else:
+        query = self.session.query(VideoRecord)
+        if record_filter.song_title is not None:
             song = self.session.query(Song).filter_by(title=record_filter.song_title).first()
-        video_records = self.session.query(VideoRecord).filter_by(song_id=song.id_).all()
+            query = query.filter(getattr(VideoRecord, "song_id") == song.id_)
+        if record_filter.original_artist is not None:
+            artist = self.session.query(OriginalArtist).filter_by(name=record_filter.original_artist).first()
+            artist_songs = set([r.id_ for r in self.session.query(Song).filter_by(original_artist_id=artist.id_).all()])
+            query = query.filter(VideoRecord.song_id.in_(artist_songs))
+        if record_filter.vtuber_name is not None:
+            vtuber = self.session.query(Vtuber).filter_by(name=record_filter.vtuber_name).first()
+            query = query.filter(getattr(VideoRecord, "vtuber_id") == vtuber.id_)
+        if record_filter.vtuber_agency is not None:
+            agency = self.session.query(Agency).filter_by(name=record_filter.vtuber_agency).first()
+            agency_vtubers = set([v.id_ for v in self.session.query(Vtuber).filter_by(agency=agency).all()])
+            query = query.filter(VideoRecord.vtuber_id.in_(agency_vtubers))
+        if record_filter.video_type is not None:
+            query = query.filter(getattr(VideoRecord, "video_type") == record_filter.video_type)
+
+        video_records = query.all()
         results = []
         for video_record in video_records:
+            song = self.session.query(Song).filter_by(id_=video_record.song_id).first()
             original_artist = self.session.query(OriginalArtist).filter_by(id_=song.original_artist_id).first()
+            vtuber = self.session.query(Vtuber).filter_by(id_=video_record.vtuber_id).first()
+            agency = self.session.query(Agency).filter_by(id_=vtuber.agency_id).first()
+            video_urls = self.session.query(VideoURL).filter_by(video_record_id=video_record.id_).all()
             results.append(
                 VideoRecordDTO(
                     song_title=song.title,
                     original_artist=original_artist.name,
-                    vtuber_name="",
-                    vtuber_agency="",
-                    video_type="utawaku",
-                    urls=[],
+                    vtuber_name=vtuber.name,
+                    vtuber_agency=agency.name,
+                    video_type=video_record.video_type,
+                    urls=[video_url.url for video_url in video_urls],
                 )
             )
         return results
