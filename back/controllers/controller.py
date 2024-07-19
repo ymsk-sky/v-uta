@@ -52,7 +52,7 @@ def get_all_video_records(session: Session = Depends(get_session)) -> List[Video
     results = service.get_all_video_records()
     return results
 
-@router.get("/records", response_model=List[VideoRecordModel])
+@router.post("/records", response_model=List[VideoRecordModel])
 def get_filtered_records(record_filter: RecordFilterModel, session: Session = Depends(get_session)) -> List[VideoRecordModel]:
     """条件に合うレコードを返す
 

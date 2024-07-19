@@ -11,6 +11,14 @@ interface VideoRecord {
     urls: string[],
 }
 
+interface FilteredRecord {
+    song_title: string | null,
+    original_artist: string | null,
+    vtuber_name: string | null,
+    vtuber_agency: string | null,
+    video_type: string | null,
+}
+
 const columns = ["id", "song", "artist", "vtuber", "agency", "urls"];
 
 const fetchRecords = async () => {
@@ -38,6 +46,26 @@ export default function SongList() {
         fetchData();
     }, []);
 
+    const fetchFilteredRecords = async (param: FilteredRecord) => {
+        try {
+            const response = await fetch("http://localhost:8000/records", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(param),
+            });
+            if (!response.ok) {
+                throw Error("Fetch Error");
+            }
+            const records: VideoRecord[] = await response.json();
+            setVideoRecords(records);
+        } catch (error) {
+            console.log("error");
+            setVideoRecords([]);
+        }
+    };
+
     return (
         <Box sx={{
             flex: 1,
@@ -61,10 +89,62 @@ export default function SongList() {
                                 <TableCell component="th" scope="row">
                                     {index}
                                 </TableCell>
-                                <TableCell>{record.song_title}</TableCell>
-                                <TableCell>{record.original_artist}</TableCell>
-                                <TableCell>{record.vtuber_name}</TableCell>
-                                <TableCell>{record.vtuber_agency}</TableCell>
+                                <TableCell>
+                                    <Button variant="text" onClick={() => {
+                                        const param: FilteredRecord = {
+                                            song_title: record.song_title,
+                                            original_artist: null,
+                                            vtuber_name: null,
+                                            vtuber_agency: null,
+                                            video_type: null,
+                                        }
+                                        fetchFilteredRecords(param)}
+                                    } sx={{ color: "black" }}>
+                                        {record.song_title}
+                                    </Button>
+                                </TableCell>
+                                <TableCell>
+                                    <Button variant="text" onClick={() => {
+                                        const param: FilteredRecord = {
+                                            song_title: null,
+                                            original_artist: record.original_artist,
+                                            vtuber_name: null,
+                                            vtuber_agency: null,
+                                            video_type: null,
+                                        }
+                                        fetchFilteredRecords(param)}
+                                    } sx={{ color: "black" }}>
+                                        {record.original_artist}
+                                    </Button>
+                                </TableCell>
+                                <TableCell>
+                                    <Button variant="text" onClick={() => {
+                                        const param: FilteredRecord = {
+                                            song_title: null,
+                                            original_artist: null,
+                                            vtuber_name: record.vtuber_name,
+                                            vtuber_agency: null,
+                                            video_type: null,
+                                        }
+                                        fetchFilteredRecords(param)}
+                                    } sx={{ color: "black" }}>
+                                        {record.vtuber_name}
+                                    </Button>
+                                </TableCell>
+                                <TableCell>
+                                    <Button variant="text" onClick={() => {
+                                        const param: FilteredRecord = {
+                                            song_title: null,
+                                            original_artist: null,
+                                            vtuber_name: null,
+                                            vtuber_agency: record.vtuber_agency,
+                                            video_type: null,
+                                        }
+                                        fetchFilteredRecords(param)}
+                                    } sx={{ color: "black" }}>
+                                        {record.vtuber_agency}
+                                    </Button>
+                                </TableCell>
                                 <TableCell>
                                     {record.urls.map((url) => (
                                         <Button variant="text" href={url} target="_blank" sx={{
