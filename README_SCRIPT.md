@@ -17,17 +17,20 @@ CHANNEL_ID=
 cd script
 .venv/Script/activate
 
+# result_utawaku_{channel_id}_{timestamp}.jsonファイルを生成する
 python collect_utawaku.py
-# result_utawaku_{channel_id}_{timestamp}.jsonファイルが生成される
 
+# result_comment_{channel_id}_{timestamp}.jsonファイルを生成する
 python get_comments_by_video_ids.py
-# result_comment_{channel_id}_{timestamp}.jsonファイルが生成される
 
+# result_timestamp_{channel_id}_{timestamp}.jsonファイルを生成する
 python get_timestamp_from_comments.py
-# result_timestamp_{channel_id}_{timestamp}.jsonファイルが生成される
 
+# result_preinfo_{channel_id}_{timestamp}.csvファイルを生成する
 python shape_timestamp.py
-# result_preinfo_{channel_id}_{timestamp}.csvファイルが生成される
+
+# data.csvファイルを生成する
+python make_records.py
 ```
 
 ## Details
@@ -49,4 +52,4 @@ python shape_timestamp.py
 
 **また, [歌情報]は[歌名],[歌手]の形式に手動で修正する必要あり**
 
-- `make_records.py`: 上記csvファイルとチャンネルID等からデータベース登録に必要な情報を生成する
+- `make_records.py`: 上記csvファイルとチャンネルID等からデータベース登録に必要な情報を書き出す
