@@ -113,13 +113,12 @@ export default function SongList() {
                                             video_type: null,
                                         }
                                         fetchFilteredRecords(param)}
-                                    } sx={{ color: "black" }}>
+                                    } sx={{ color: "black", textTransform: "none" }}>
                                         {record.song_title}
                                     </Button>
                                 </TableCell>
                                 <TableCell>
                                     <Button variant="text" onClick={() => {
-                                        console.log(record.original_artist);
                                         const param: FilteredRecord = {
                                             song_title: null,
                                             original_artist: record.original_artist,
@@ -128,7 +127,7 @@ export default function SongList() {
                                             video_type: null,
                                         }
                                         fetchFilteredRecords(param)}
-                                    } sx={{ color: "black" }}>
+                                    } sx={{ color: "black", textTransform: "none" }}>
                                         {record.original_artist}
                                     </Button>
                                 </TableCell>
@@ -142,7 +141,7 @@ export default function SongList() {
                                             video_type: null,
                                         }
                                         fetchFilteredRecords(param)}
-                                    } sx={{ color: "black" }}>
+                                    } sx={{ color: "black", textTransform: "none" }}>
                                         {record.vtuber_name}
                                     </Button>
                                 </TableCell>
@@ -156,7 +155,7 @@ export default function SongList() {
                                             video_type: null,
                                         }
                                         fetchFilteredRecords(param)}
-                                    } sx={{ color: "black" }}>
+                                    } sx={{ color: "black", textTransform: "none" }}>
                                         {record.vtuber_agency}
                                     </Button>
                                 </TableCell>
