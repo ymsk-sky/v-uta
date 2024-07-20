@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import { Box, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@mui/material";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import TuneIcon from "@mui/icons-material/Tune";
+import FilterBox from "./FilterBox";
 
-interface VideoRecord {
+export interface VideoRecord {
     song_title: string,
     original_artist: string,
     vtuber_name: string,
@@ -12,7 +13,7 @@ interface VideoRecord {
     urls: string[],
 }
 
-interface FilteredRecord {
+export interface FilteredRecord {
     song_title: string | null,
     original_artist: string | null,
     vtuber_name: string | null,
@@ -33,6 +34,7 @@ const fetchRecords = async () => {
 
 export default function SongList() {
     const [videoRecords, setVideoRecords] = useState<VideoRecord[]>([]);
+    const [showFilterBox, setShowFilterBox] = useState<boolean>(false);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -84,7 +86,7 @@ export default function SongList() {
                                     {column === "urls" ? (
                                         <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                                             {column}
-                                            <Button variant="text" sx={{ color: "#222222" }} onClick={() => { console.log("clicked") }}>
+                                            <Button variant="text" sx={{ color: "#222222" }} onClick={() => { setShowFilterBox(true); }}>
                                                 <TuneIcon/>
                                             </Button>
                                         </Box>
@@ -117,6 +119,7 @@ export default function SongList() {
                                 </TableCell>
                                 <TableCell>
                                     <Button variant="text" onClick={() => {
+                                        console.log(record.original_artist);
                                         const param: FilteredRecord = {
                                             song_title: null,
                                             original_artist: record.original_artist,
@@ -158,14 +161,14 @@ export default function SongList() {
                                     </Button>
                                 </TableCell>
                                 <TableCell>
-                                    {record.urls.map((url) => (
+                                    {record.urls.map((url, jndex) => (
                                         <Button variant="text" href={url} target="_blank" sx={{
                                             maxWidth: "30px",
                                             maxHeight: "30px",
                                             minWidth: "30px",
                                             minHeight: "30px",
                                             marginRight: 1
-                                        }}>
+                                        }} key={index * videoRecords.length + jndex}>
                                             <YouTubeIcon sx={{ color: "#FF3D00" }}/>
                                         </Button>
                                     ))}
@@ -175,6 +178,7 @@ export default function SongList() {
                     </TableBody>
                 </Table>
             </TableContainer>
+            {showFilterBox && <FilterBox setShow={setShowFilterBox} setVideoRecords={setVideoRecords}/>}
         </Box>
     )
 }
