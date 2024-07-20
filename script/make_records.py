@@ -12,7 +12,7 @@ files = list(Path(".").glob(f"result_preinfo_{channel_id}_*.csv"))
 if len(files) == 0:
     print("No json files")
     exit()
-file = files[0]
+file = sorted(files)[-1]
 
 with open(file, mode="r", encoding="utf-8") as f:
     lines = f.readlines()

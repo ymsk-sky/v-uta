@@ -19,7 +19,7 @@ ts = datetime.now().strftime("%Y%m%d%H%M%S")
 
 # 取得したvideoIdを読み込む
 try:
-    result_utawaku = list(Path(".").glob("./result_utawaku_*.json"))[0]
+    result_utawaku = sorted(list(Path(".").glob("./result_utawaku_*.json")))[-1]
 except IndexError:
     print("No json file")
     exit()

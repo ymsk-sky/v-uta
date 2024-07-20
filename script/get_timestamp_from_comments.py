@@ -16,7 +16,7 @@ files = list(Path(".").glob(f"result_comment_{channel_id}_*.json"))
 if len(files) == 0:
     print("No json files")
     exit()
-file = files[0]
+file = sorted(files)[-1]
 with file.open(mode="r") as f:
     data = json.load(f)
 
