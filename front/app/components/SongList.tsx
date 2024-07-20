@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Box, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@mui/material";
 import YouTubeIcon from "@mui/icons-material/YouTube";
+import TuneIcon from "@mui/icons-material/Tune";
 
 interface VideoRecord {
     song_title: string,
@@ -79,7 +80,18 @@ export default function SongList() {
                     <TableHead sx={{ backgroundColor: "primary.light" }}>
                         <TableRow>
                             {columns.map((column) => (
-                                <TableCell key={column}>{column}</TableCell>
+                                <TableCell key={column}>
+                                    {column === "urls" ? (
+                                        <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                                            {column}
+                                            <Button variant="text" sx={{ color: "#222222" }} onClick={() => { console.log("clicked") }}>
+                                                <TuneIcon/>
+                                            </Button>
+                                        </Box>
+                                    ) : (
+                                        column
+                                    )}
+                                </TableCell>
                             ))}
                         </TableRow>
                     </TableHead>
